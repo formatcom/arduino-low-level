@@ -1,4 +1,4 @@
-NAME=blink
+NAME=usart
 
 CC=avr-gcc
 
