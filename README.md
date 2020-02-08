@@ -6,12 +6,12 @@
 - avr-gdb
 - avrdude
 - simavr
-- radare2
+- radare2         <-     Aun no lo documento
 ~~~
 
 ## BUILD
 ~~~
-$ avr-gcc -Wall -g -Os -mmcu=atmega328 -o demo.elf hello.c
+$ avr-gcc -Wall -g -Os -mmcu=atmega328p -o demo.elf hello.c
 ~~~
 
 ### ENTRYPOINT -> Vector Reset
@@ -60,17 +60,41 @@ $ avr-objdump --no-show-raw-insn -m avr --prefix-addresses -D demo.hex > demo.as
 
 ## simavr mode debug demo.elf
 ~~~
-$ simavr -g -m atmega328 demo.elf
+$ simavr -g -m atmega328p -f 16000000 demo.elf
 ~~~
 
 ## simavr mode debug demo.hex
 ~~~
-$ simavr -g -m atmega328 -f 16000000 demo.hex
+$ simavr -g -m atmega328p -f 16000000 demo.hex
+~~~
+
+## connect debug with avr-gdb
+~~~
+$ avr-gdb
+(gdb) file blink.elf                  |   cargar datos del binario
+(gdb) target remote 0.0.0.0:1234      |   conectarse al servidor gdb
+(gdb) load                            |   no lo se definir xD...
+(gdb) info files                      |   informacion del binario
+(gdb) info registers                  |   ver registros
+(gdb) break main.c:loop               |   agregar breakpoint en loop
+(gdb) break main.c:26                 |   agregar breakpoint en la linea 26
+(gdb) info breakpoints                |   ver todos los breakpoints
+(gdb) clear main.c:loop               |   elimina breakpoint
+(gdb) print PORTB                     |   imprimir valor de la variable PORTB
+(gdb) set variable PORTB = 0xff       |   asignar valor a la variable PORTB
+(gdb) print PORTB                     |   print dec
+(gdb) print/x PORTB                   |   print hex
+(gdb) print/t PORTB                   |   print bin
+(gdb) list main.c:loop                |   ver el codigo fuente de la funcion loop
+(gdb) step                            |   ejecutar una instruccion
+(gdb) continue                        |   ejecutar hasta encontrar un breakpoint
+(gdb) info frame                      |   luego lo defino, pero es importante
+(gdb) info variables                  |   ver las variables
 ~~~
 
 ## connect debug with radare2
 ~~~
-$ r2 -a avr -d gdb://localhost:1234
+$ r2 -a avr -d gdb://0.0.0.0:1234
 ~~~
 
 ## dump programmer stk500

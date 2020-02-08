@@ -2,7 +2,7 @@ NAME=blink
 
 CC=avr-gcc
 
-CFLAGS=-Wall -Os -mmcu=atmega328p
+CFLAGS=-Wall -g -Os -mmcu=atmega328p
 
 SRCS = main.c
 
