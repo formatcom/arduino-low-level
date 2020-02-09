@@ -9,6 +9,13 @@
 - radare2         <-     Aun no lo documento
 ~~~
 
+## NOTA
+~~~
+- Registros de control (W): Configurar el modo de funcionamiento de los componentes.
+- Registros de estado  (R): Informan sobre el estado de la operación de E/S.
+- Registros de datos  (RW): Contienen temporalmente los datos a transferir.
+~~~
+
 ## BUILD
 ~~~
 $ avr-gcc -Wall -g -Os -mmcu=atmega328p -o demo.elf hello.c

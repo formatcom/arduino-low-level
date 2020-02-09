@@ -1,0 +1,49 @@
+microcontrolador -> S3C44B0X
+
+- 2 puertos de solo salida      (A y B)
+- 5 puertos de entrada/salida   (C, D, E, F y G)
+
+- PCONA 10 bits | PDATA 10 bits.
+- PCONB 11 bits | PDATB 11 bits.
+
+- PCONC 32 bits | PDATC 16 bits | PUPC 16 bits.
+- PCOND 16 bits | PDATD  8 bits | PUPD  8 bits.
+- PCONE 18 bits | PDATE  9 bits | PUPE  9 bits.
+- PCONF 22 bits | PDATF  9 bits | PUPF  9 bits.
+- PCONG 16 bits | PDATG  8 bits | PUPG  8 bits.
+
+REGISTROS DE GESTION POR PUERTO
+
+- PCONx (registro de control)
+- PDATx (registro de datos)
+- PUPx  activar/desativar la resistencia 50k interna que tiene cada pin
+
+LEDS
+
+- PCONB[9]  LED IZQ
+- PCONB[10] LED DER
+
+PULSADORES
+
+- PCONG[13:12] PULSADOR IZQ
+- PCONG[15:14] PULSADOR DER
+
+DISPLAY 7 SEGMENTOS ANODO COMUN
+
+         _a_
+        |   |
+       f|   |b
+        |_g_|
+        |   |
+       e|   |c
+        |_d_|
+             o dp
+
+- D0 -> f
+- D1 -> g
+- D2 -> e
+- D3 -> d
+- D4 -> dp
+- D5 -> c
+- D6 -> b
+- D7 -> a
