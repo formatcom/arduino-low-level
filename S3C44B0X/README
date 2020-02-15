@@ -1,3 +1,7 @@
+INSTALL
+- arm toolchain
+- qemu
+
 microcontrolador -> S3C44B0X
 
 - 2 puertos de solo salida      (A y B)

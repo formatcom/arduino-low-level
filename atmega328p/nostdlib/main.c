@@ -22,7 +22,7 @@ void setup()
 	DDRB = 0xff;
 }
 
-void loop()
+static inline void loop()
 {
 	PORTB ^= 1<<PORTB5;
 	_delay_ms(1000);

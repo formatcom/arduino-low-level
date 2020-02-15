@@ -14,7 +14,13 @@
 - Registros de control (W): Configurar el modo de funcionamiento de los componentes.
 - Registros de estado  (R): Informan sobre el estado de la operación de E/S.
 - Registros de datos  (RW): Contienen temporalmente los datos a transferir.
+
+- DDRB 8 bits | PORTB 8 bits.
+- DDRC 8 bits | PORTC 8 bits.
+- DDRD 8 bits | PORTD 8 bits.
+
 ~~~
+
 
 ## BUILD
 ~~~
