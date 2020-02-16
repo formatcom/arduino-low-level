@@ -1,6 +1,6 @@
 MEMORY
 {
-	FLASH  (rx)   : ORIGIN = 0, LENGTH = 32k
+	FLASH  (rx)   : ORIGIN = 0x000000, LENGTH = 32k
 	SRAM   (rw!x) : ORIGIN = 0x800100, LENGTH = 2k
 	EEPROM (rw!x) : ORIGIN = 0x810000, LENGTH = 1k
 }

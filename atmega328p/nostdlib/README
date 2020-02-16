@@ -44,6 +44,32 @@ pueda hacer referencia.
 
 - linker script
 
+REF: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Using_ld_the_GNU_Linker/scripts.html#BASIC-SCRIPT-CONCEPTS
+
+	* Conceptos basicos
+  El enlazador combina archivos de entrada en un solo archivo de salida. El archivo de salida y cada
+archivo de entrada están en un formato de datos especial conocido conocido como formato de archivo de
+objeto. Cada archivo se llama un archivo objeto. El archivo de salida a menudo se llama ejecutable,
+pero para nuestros propósitos también lo llamaremos un archivo objeto. Cada archivo de objeto tiene,
+entre otras cosas, una lista de secciones. A veces nos referimos a una sección de un archivo de entrada
+como un sección de entrada; Del mismo modo, una sección en el archivo de salida es una sección de salida.
+
+  Cada sección en un archivo de objeto tiene un nombre y un tamaño. La mayoría de las secciones también
+tienen un bloque de datos asociado, conocido como el contenido de la sección. Una sección puede marcarse
+como cargable, lo que significa que el contenido debe cargarse en la memoria cuando se ejecuta el archivo
+de salida. Una sección sin contenido puede ser asignable, lo que significa que se debe reservar un área en
+la memoria, pero no se debe cargar nada en particular allí (en algununos casos, esta memoria se debe poner
+a cero). Una sección que no se puede cargar ni asignar normalmente contiene algún tipo de información de
+depuración.
+
+  Cada sección de salida cargable o asignable tiene dos direcciones. El primero es el VMA, o dirección de
+memoria virtual. Esta es la dirección que tendrá la sección cuando se ejecute el archivo de salida. El
+segundo es el LMA, o dirección de memoria de carga. Esta es la dirección en la que se cargará la sección.
+En la mayoría de los casos, las dos direcciones serán las mismas. Un ejemplo de cuándo podrían ser diferentes
+es cuando una sección de datos se carga en la ROM y luego se copia en la RAM cuando se inicia el programa
+( esta técnica a menudo se usa para inicializar variables globales en un sistema basado en ROM). En este caso,
+la dirección ROM sería la LMA, y la dirección RAM sería la VMA.
+
 	* MEMORY: define el mapa físico de memoria.
 	* SECTIONS: define cómo las secciones de entrada se ubican en memoria.
 	* ENTRY: indica la dirección de primera instrucción ejecutable.
@@ -68,7 +94,15 @@ MEMORY
 SECTIONS
 {
 	.text : { * (.text) } > FLASH
-	.data : { * (.data) } > SRAM
+	.data : { * (.data) }  > SRAM AT> FLASH /* VMA en SRAM | LMA en FLASH */
 }
 
+- COMANDOS QUE QUIERO COMENTAR AQUI
 
+	* avr-readelf -h blink.elf      -> ver cabecera elf.
+	* avr-readelf -s blink.elf      -> ver tabla de simbolos.
+	* avr-readelf -S blink.elf      -> ver las secciones de un archivo de objeto.
+	* avr-objdump -t blink.elf      -> ver tabla de simbolos.
+	* avr-objdump -h blink.elf      -> ver las secciones de un archivo de objeto.
+	* avr-nm blink.elf              -> ver símblolos de un archivo de objeto.
+	* avr-objdump -S blink.elf      -> ver el source code with disassembly.
