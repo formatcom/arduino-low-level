@@ -1,6 +1,5 @@
-.global __init
+	.global __init
 
 __init:
-	cli
-
-call main
+	CLI
+	CALL main

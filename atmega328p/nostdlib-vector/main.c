@@ -8,14 +8,10 @@
 #define F_CPU 16000000UL
 
 #include <avr/io.h>
-#include <avr/interrupt.h>
 
-// REF: https://gcc.gnu.org/onlinedocs/gcc/AVR-Function-Attributes.html
-void __vector_1 (void) __attribute__ ((signal));
 
 void setup()
 {
-
 	DDRB = 0xff;
 
 	DDRD = 0xff ^ (1<<PD2);
@@ -24,39 +20,39 @@ void setup()
 
 	PORTB = 1<<PB5;
 
-	// Desactivar interrupciones globales
-	cli();
-
 	// Configurar flanco de subida
 	EICRA = (1<<ISC01)|(1<<ISC00);
 
 	// Establecer mascara de bit para INT0
 	EIMSK = 1<<INT0;
 
+	// REF: 13.2.3 EIFR – External Interrupt Flag Register
 	// No activar interrupcion al habilitar las interrupciones globales
 	EIFR = 1<<INTF0;
 
 	// Activar interrupciones globales
-	sei();
+	SREG = 1<<7;
 }
 
 void __vector_1(void)
 {
 	PORTB ^= 1<<PB5;
-}
 
-void loop()
-{
+	/* 7.3.1 SREG – AVR Status Register
+
+	   El hardware borra el bit I después de que se haya producido una
+	   interrupción.
+
+	*/
+
+	SREG = 1<<7; // esto es quivalente a RETI en asm.
 }
 
 int main()
 {
 	setup();
 
-	for (;;)
-	{
-		loop();
-	}
+	for (;;);
 
 	return 0;
 }

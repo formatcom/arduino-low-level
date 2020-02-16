@@ -8,6 +8,8 @@ SECTIONS
 {
 	.text   :
 	{
+		*(.vectors)
+		. = ALIGN(2);
 		*(.text)
 		. = ALIGN(2); /* align address 16 bits */
 		*(.text.*)
@@ -23,4 +25,4 @@ SECTIONS
 	}  > SRAM AT> FLASH
 }
 
-ENTRY(__init)
+ENTRY(__vectors)
