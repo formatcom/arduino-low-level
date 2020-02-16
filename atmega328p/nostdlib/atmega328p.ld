@@ -9,7 +9,7 @@ SECTIONS
 	.text   :
 	{
 		*(.text)
-		. = ALIGN(2);
+		. = ALIGN(2); /* align address 16 bits */
 		*(.text.*)
 		. = ALIGN(2);
 	}  > FLASH
