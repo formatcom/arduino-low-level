@@ -32,6 +32,7 @@ $ avr-gcc -Wall -g -Os -mmcu=atmega328p -o demo.elf hello.c
 ## headers/Intermix source code with disassembly
 ~~~
 $ avr-objdump -h -S demo.elf
+$ avr-objdump -D -m avr foo.hex
 ~~~
 
 ## the .data section 

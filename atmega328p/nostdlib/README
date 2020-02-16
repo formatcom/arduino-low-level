@@ -1,0 +1,74 @@
+- AVR Memories
+
+  La arquitectura de avr tiene dos memorias principales, la memoria de datos y la
+memoria de programa. adicional a esto posee una memoria eerom para guardar datos.
+
+  El atmega328p contiene 32Kbytes de memoria flash para almecenar el programa. Todas
+las instrucciones de AVR son de 16 o 32 bits, la memoria flash esta organizada como
+16K x 16.
+
+  16K como leer:
+
+     16K == 16 * 1024 == 16384 Ubicaciones de almacenamiento de 8 bit.
+
+  16K * 16 se leeria de la siguiente manera:
+
+     16K == 16 * 1024 == 16384 Ubicaciones de almacenamiento de 16 bit.
+
+  que es lo mismo que.
+
+     16K == 16 * 1024 * 2 == 32768 (32K) == 32768 Ubicaciones de almacenamiento de 8 bit.
+
+  Por seguridad la memoria flash esta dividido en dos secciones:
+	- Boot loader.
+	- Application program.
+
+  El contador de programa (PC) es de 14 bits, asi que puede direccionar 2^14 (16K) localizaciones
+de memoria de programa.
+
+
+REF: https://www.microchip.com/webdoc/avrlibcreferencemanual/mem_sections_1sec_dot_data.html
+
+- .text Section
+  La seccion .text contiene las instrucciones de tu programa.
+
+- .data Section
+  La seccion .data contiene los datos estaticos definidos en tu codigo. Si desea que la sección
+.data comience en 0x100, pase 0x800100 ya que la direccion real de la SRAM es 0x800000.
+
+  ver en el datasheet Figure 8-3. Data Memory Map.
+
+- .eeprom Section
+  La direccion real de la eeprom es 0x00810000 pero no he ubicado aun una documentación a la que
+pueda hacer referencia.
+
+- linker script
+
+	* MEMORY: define el mapa físico de memoria.
+	* SECTIONS: define cómo las secciones de entrada se ubican en memoria.
+	* ENTRY: indica la dirección de primera instrucción ejecutable.
+
+REF: https://www.microchip.com/webdoc/avrlibcreferencemanual/using_tools_1using_avr_gcc_mach_opt.html
+default: avr/lib/ldscripts/avr5.x
+
+# A .x script file is the default script.
+# A .xr script is for linking without relocation (-r flag).
+# A .xu script is like .xr, but *do* create constructors (-Ur flag).
+# A .xn script is for linking with -n flag (mix text and data on same page).
+# A .xbn script is for linking with -N flag (mix text and data on same page).
+# A .xs script is for generating a shared library with the --shared
+
+MEMORY
+{
+	FLASH  (r x) : ORIGIN = 0x00000000, LENGTH = 32K
+	SRAM   (rw ) : ORIGIN = 0x00800100, LENGTH = 2K
+	EEPROM (rw ) : ORIGIN = 0x00810000, LENGTH = 1K
+}
+
+SECTIONS
+{
+	.text : { * (.text) } > FLASH
+	.data : { * (.data) } > SRAM
+}
+
+
