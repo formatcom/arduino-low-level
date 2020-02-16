@@ -9,11 +9,6 @@
 
 #include <avr/io.h>
 
-#define STATE_INITIAL   1<<0
-#define STATE_PRESSED   1<<1
-#define STATE_RELEASED  1<<2
-
-uint8_t state = STATE_INITIAL;
 
 void setup()
 {
@@ -29,27 +24,13 @@ void setup()
 	PORTB = 1<<PB5;
 }
 
-void detectButton()
+static inline void loop()
 {
 	if (~PIND & (1<<PD2))
-		state = STATE_PRESSED;
-	else if(state & STATE_PRESSED)
-		state = STATE_RELEASED;
-}
-
-void updateLed()
-{
-	if (state & STATE_RELEASED)
 	{
+		while(~PIND & (1<<PD2));
 		PORTB ^= 1<<PB5;
-		state = STATE_INITIAL;
 	}
-}
-
-void loop()
-{
-	detectButton();
-	updateLed();
 }
 
 int main()
