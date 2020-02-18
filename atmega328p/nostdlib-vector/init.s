@@ -3,6 +3,8 @@
 	tiene la limitación de que obligatoriamente la función handler
 	se debe llamar __vector_1 para poder funcionar.
 
+	el __vector_1 se mapea a nivel de linker.
+
 	NOTA: Es una version muy simplificada de avr-libc/crt1/gcrt1.S
 	sin validación, ...
 */

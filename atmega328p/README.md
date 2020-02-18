@@ -99,6 +99,7 @@ $ avr-gdb
 (gdb) print PORTB                     |   print dec
 (gdb) print/x PORTB                   |   print hex
 (gdb) print/t PORTB                   |   print bin
+(gdb) x/t 0x5F                        |   imprimir valor en memoria, en este caso imprimo el SREG
 (gdb) list main.c:loop                |   ver el codigo fuente de la funcion loop
 (gdb) step                            |   ejecutar una instruccion
 (gdb) continue                        |   ejecutar hasta encontrar un breakpoint
@@ -109,6 +110,11 @@ $ avr-gdb
 ## connect debug with radare2
 ~~~
 $ r2 -a avr -d gdb://0.0.0.0:1234
+~~~
+
+## ver info
+~~~
+$ avrdude -v -p m328p -c arduino -P /dev/ttyACM0
 ~~~
 
 ## dump programmer stk500
@@ -125,3 +131,4 @@ $ avrdude -F -v -p m328p -c arduino -P /dev/ttyUSB0 -D -U flash:r:reverse.hex:i
 ~~~
 $ avrdude -p m328p -c arduino -P /dev/ttyACM0 -b 115200 -U flash:w:demo.hex
 ~~~
+
