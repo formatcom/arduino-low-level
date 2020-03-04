@@ -53,15 +53,6 @@ unsigned char usart_receive()
 	return UDR0;
 }
 
-void init()
-{
-	// enable Global Interrupt
-	sei();
-
-	// set timer 1 prescale factor to 64
-	TCCR1B = 0x2;
-}
-
 void setup()
 {
 	usart_init();
@@ -88,7 +79,6 @@ void loop()
 
 int main()
 {
-	init();
 	setup();
 
 	for (;;)

@@ -11,12 +11,6 @@
 #include <util/delay.h>
 
 
-void init()
-{
-	// set timer 1 prescale factor to 64
-	TCCR1B = 0x2;
-}
-
 void setup()
 {
 	DDRB = 0xff;
@@ -30,7 +24,6 @@ static inline void loop()
 
 int main()
 {
-	init();
 	setup();
 
 	for (;;)
