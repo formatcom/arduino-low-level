@@ -10,21 +10,19 @@
 
 #include <stdlib.h>
 #include <avr/io.h>
-#include <avr/interrupt.h>
 #include <util/delay.h>
 #include <util/setbaud.h>
 
+
 void usart_init()
 {
-
-	UBRR0 = 0;
-
-	// 21.8.4  UCSR0C - USART MSPIM Control and Status Register 0 C
-	// MODE Master SPI
+	// MODE Asynchronous
+	// REF: Table 20-11. UCSZn Bits Settings
+	// Se ajusta a 8 caracteres
 	UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);
 
-	// 20.11.3 UCSR0B - USART Control and Status Register 0 B
 
+	// 20.11.3 UCSR0B - USART Control and Status Register 0 B
 	// Enable receiver and transmitter.
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
 
@@ -41,6 +39,11 @@ void usart_transmit(unsigned char c)
 	// Wait for empty transmit buffer
 	while ( !( UCSR0A & (1<<UDRE0)) );
 
+	// REF: Figure 20-1. USART Block Diagram
+	// REF: 20.11.1 UDRn – USART I/O Data Register
+	// UDR son en verdad dos registros de IO separados
+	// cuando se escribe se envia al TXB
+	//
 	// Send character c
 	UDR0 = c;
 }
@@ -50,6 +53,11 @@ unsigned char usart_receive()
 	// Wait for data to be received
 	while ( !(UCSR0A & (1<<RXC0)) );
 
+	// REF: Figure 20-1. USART Block Diagram
+	// REF: 20.11.1 UDRn – USART I/O Data Register
+	// UDR son en verdad dos registros de IO separados
+	// cuando se leer se recibe del RXB
+	//
 	return UDR0;
 }
 
@@ -70,7 +78,7 @@ void setup()
 	}
 }
 
-void loop()
+static inline void loop()
 {
 	usart_transmit(
 		usart_receive()

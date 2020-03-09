@@ -1,4 +1,4 @@
-NAME=adc
+NAME=oscilloscope
 
 CC=avr-gcc
 
